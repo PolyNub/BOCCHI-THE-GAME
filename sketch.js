@@ -17,6 +17,7 @@ let noteOffset = 0
 let playChart = 0
 let song = 1
 let titleFloat = 0
+let device = 0
 
 let arrowXs1 = [-100];
 let arrowYs1 = [];
@@ -78,6 +79,9 @@ function preload() {
   missSfx = loadSound('audio/MissSFXV2.wav')
   moveSelect = loadSound('audio/Select.mp3')
   moveHit = loadSound('audio/menuhit.mp3')
+
+  computer = loadImage('images/desktop-computer-emoji-2048x2048-kw37tagw.png')
+  phone = loadImage('images/133-1331851_cell-phone-emoji-png-transparent-png-Photoroom.png')
 
   leftArrow = loadImage('images/leftArrow.png')
   downArrow = loadImage('images/downArrow.png')
@@ -147,10 +151,13 @@ function draw() {
   drawBocchi(450, 535)
 
   drawLights()
-  
+
   doArrowInput(0.3)
   drawArrowHit(noteSize, startPoint, noteSpacing)
   drawArrows(12)
+  drawMobileHit()
+
+  drawChangeDevice()
 
   fill(255)
   stroke(0)
@@ -170,7 +177,12 @@ function draw() {
     
     textSize(15)
     strokeWeight(4)
-    text('Use DFJK or Arrow Keys, Q/E to change song, and press ENTER to play!!', width/2, height/3-80)
+    if (device === 0) {
+      text('Use DFJK or Arrow Keys, Q/E to change song, and press ENTER to play!!', width/2, height/3-80)
+    } else {
+      text('Tap the four screen divisions, red/blue division to change song, and tap the song cover to play!!', width/2, height/3-80)
+    }
+
 
     textSize(20)
     strokeWeight(6)
@@ -653,6 +665,48 @@ function drawArrowHit(size, startPoint, noteSpacing) {
 
 }
 
+function drawChangeDevice() {
+  if (playChart === 0) {
+    if (device === 0) {
+      image(computer, 50, 50, 70, 70)
+    } else {
+      image(phone, 50, 50, 50, 70)
+    }
+  }
+}
+
+function drawMobileHit() {
+  if (device === 1) {
+    if (pressed1 === true) {
+      fill(255,0,40, 140)
+    } else {
+      fill(255,0,40, 90)
+    }
+    rect(160, height/2+320, 320, 80)
+  
+    if (pressed2 === true) {
+      fill(255,155,0, 140)
+    } else {
+      fill(255,155,0, 90)
+    }
+    rect(480, height/2+320, 320, 80)
+  
+    if (pressed3 === true) {
+      fill(255, 131, 187, 140)
+    } else {
+      fill(255, 131, 187, 90)
+    }
+    rect(800, height/2+320, 320, 80)
+  
+    if (pressed4 === true) {
+      fill(40, 40, 212, 140)
+    } else {
+      fill(40, 40, 212, 90)
+    }
+    rect(1120, height/2+320, 320, 80)
+  }
+}
+
 function spawnNote1() {
   arrowXs1.push(startPoint)
   arrowYs1.push(0)
@@ -682,53 +736,134 @@ function spawnNote4() {
 }
 
 function keyPressed() {
-  if (key === 'd' || keyCode === LEFT_ARROW) {
-    pressed1C = 1
-    bocchiAnim = 1
-    bocchiAnimTimer = 1
-  }
-  if (key === 'f'|| keyCode === DOWN_ARROW) {
-    pressed2C = 1
-    bocchiAnim = 2
-    bocchiAnimTimer = 1
-  }
-  if (key === 'j'|| keyCode === UP_ARROW) {
-    pressed3C = 1
-    bocchiAnim = 3
-    bocchiAnimTimer = 1
-  }
-  if (key === 'k'|| keyCode === RIGHT_ARROW) {
-    pressed4C = 1
-    bocchiAnim = 4
-    bocchiAnimTimer = 1
-  }
+  if (device === 0) {
+    if (key === 'd' || keyCode === LEFT_ARROW) {
+      pressed1C = 1
+      bocchiAnim = 1
+      bocchiAnimTimer = 1
+    }
+    if (key === 'f'|| keyCode === DOWN_ARROW) {
+      pressed2C = 1
+      bocchiAnim = 2
+      bocchiAnimTimer = 1
+    }
+    if (key === 'j'|| keyCode === UP_ARROW) {
+      pressed3C = 1
+      bocchiAnim = 3
+      bocchiAnimTimer = 1
+    }
+    if (key === 'k'|| keyCode === RIGHT_ARROW) {
+      pressed4C = 1
+      bocchiAnim = 4
+      bocchiAnimTimer = 1
+    }
 
-  if (keyCode === ENTER && playChart === 0) {
+    if (keyCode === ENTER && playChart === 0) {
+      if (titleScreen === true) {
+        titleScreen = false
+        moveHit.play()
+        MenuTheme.play()
+      } else {
+        moveHit.play()
+        MenuTheme.stop()
+        startChart()
+      }
+    }
+
+    if (key === 'e' && playChart === 0) {
+      moveSelect.play()
+      if (song < 5) {
+        song += 1
+      }
+    }
+    if (key === 'q' && playChart === 0) {
+      moveSelect.play()
+      if (song > 1) {
+        song -= 1
+      }
+    }
+    if (key === 'p' && playChart === 0) {
+        song = 6
+    }
+  }
+}
+
+function mousePressed() {
+  if (playChart === 0) {
     if (titleScreen === true) {
+      device = 1
       titleScreen = false
       moveHit.play()
       MenuTheme.play()
-    } else {
-      moveHit.play()
-      MenuTheme.stop()
-      startChart()
     }
   }
 
-  if (key === 'e' && playChart === 0) {
-    moveSelect.play()
-    if (song < 5) {
-      song += 1
+  if (playChart === 0) { // DEVICE SWITCHER
+    if (mouseX >= 15 && mouseX <= 85) {
+      if (mouseY >= 15 && mouseY <= 85) {
+        if (device === 0) {
+          device = 1
+          moveSelect.play()
+        } else {
+          device = 0
+          moveSelect.play()
+        }
+      }
     }
   }
-  if (key === 'q' && playChart === 0) {
-    moveSelect.play()
-    if (song > 1) {
-      song -= 1
+
+  if (device === 1) {
+    if (playChart === 1) { // actual input for notes
+
+      if (mouseX >= 0 && mouseX <= 320) {
+        pressed1C = 1
+        bocchiAnim = 1
+        bocchiAnimTimer = 1
+      }
+      if (mouseX >= 320 && mouseX <= 640) {
+        pressed2C = 1
+        bocchiAnim = 2
+        bocchiAnimTimer = 1
+      }
+      if (mouseX >= 640 && mouseX <= 960) {
+        pressed3C = 1
+        bocchiAnim = 3
+        bocchiAnimTimer = 1
+      }
+      if (mouseX >= 960 && mouseX <= 1280) {
+        pressed4C = 1
+        bocchiAnim = 4
+        bocchiAnimTimer = 1
+      }
+    } else { // song selection
+
+      if (mouseX >= 0 && mouseX <= 320) {
+        pressed1C = 1
+        moveSelect.play()
+        if (song > 1) {
+          song -= 1
+        }
+      }
+      if (mouseX >= 960 && mouseX <= 1280) {
+        pressed4C = 1
+        moveSelect.play()
+        if (song < 5) {
+          song += 1
+        }
     }
-  }
-  if (key === 'p' && playChart === 0) {
-      song = 6
+
+    if (playChart === 0) {
+      if (titleScreen === false) {
+        if (mouseX >= 830 && mouseX <= 1130) {
+          if (mouseY >= 210 && mouseY <= 510) {
+            moveHit.play()
+            MenuTheme.stop()
+            startChart()
+          }
+        }
+      }
+    }
+    }
   }
 }
 
