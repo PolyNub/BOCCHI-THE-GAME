@@ -158,6 +158,7 @@ function setup() {
 
   // counts bpm, unused but maybe of use later
   setInterval(timer, 315.8)
+  setInterval(moveArrows, 100);
 
   // counts anim timers for other band members
   setInterval(kitaAnimateTimer, 157.9)
@@ -618,17 +619,12 @@ function miss() {
   missSfx.play()
 }
 
-function drawArrows(arrowSpeed, arrowHitMargin) {
-
-  fill(255)
-
+function moveArrows(arrowSpeed) {
+  arrowSpeed = 60;
   // arrows for left arrow
 
   for(let i = 0; i < arrowXs1.length; i+=1) {
-
-    imageMode(CENTER)
-    image(leftArrow, arrowXs1[i]+random(-2*noteShake, 2*noteShake), arrowYs1[i]+random(-2*noteShake, 2*noteShake), noteSize, noteSize*1.8)
-    arrowYs1[i] += arrowSpeed // arrow speed
+    arrowYs1[i] += arrowSpeed * 1// arrow speed
 
     // deletes arrow if offscreen
     if (arrowYs1[i] > height+40) {
@@ -636,24 +632,12 @@ function drawArrows(arrowSpeed, arrowHitMargin) {
       arrowYs1.splice(i,1)
       miss()
     }
-    // hit detection
-    if (arrowYs1[i] > height-90-arrowHitMargin && arrowYs1[i] < height-90+arrowHitMargin) {
-      if (pressed1 === true) {
-        arrowXs1.splice(i,1)
-        arrowYs1.splice(i,1)
-        pressed1T = 220
-        hit()
-      }
-    }
   }
 
   // arrows for down arrow
 
   for(let i = 0; i < arrowXs2.length; i+=1) {
-
-    imageMode(CENTER)
-    image(downArrow, arrowXs2[i]+random(-2*noteShake, 2*noteShake), arrowYs2[i]+random(-2*noteShake, 2*noteShake),  noteSize*1.8, noteSize)
-    arrowYs2[i] += arrowSpeed // arrow speed
+    arrowYs2[i] += arrowSpeed * 1 // arrow speed
 
     // deletes arrow if offscreen
     if (arrowYs2[i] > height+40) {
@@ -661,7 +645,67 @@ function drawArrows(arrowSpeed, arrowHitMargin) {
       arrowYs2.splice(i,1)
       miss()
     }
+  }
 
+  // arrows for up arrow
+
+  for(let i = 0; i < arrowXs3.length; i+=1) {
+    arrowYs3[i] += arrowSpeed * 1 // arrow speed
+
+    // deletes arrow if offscreen
+    if (arrowYs3[i] > height+40) {
+      arrowXs3.splice(i,1)
+      arrowYs3.splice(i,1)
+      miss()
+    }
+  }
+
+  // arrows for right arrow
+
+  for(let i = 0; i < arrowXs4.length; i+=1) {
+    arrowYs4[i] += arrowSpeed * 1// arrow speed
+
+    // deletes arrow if offscreen
+    if (arrowYs4[i] > height+40) {
+      arrowXs4.splice(i,1)
+      arrowYs4.splice(i,1)
+      miss()
+    }
+  }
+}
+
+function drawArrows(arrowSpeed, arrowHitMargin) {
+
+  fill(255)
+
+  // arrows for left arrow
+
+  for(let i = 0; i < arrowXs1.length; i+=1) {
+    imageMode(CENTER)
+    image(leftArrow, arrowXs1[i]+random(-2*noteShake, 2*noteShake), arrowYs1[i]+random(-2*noteShake, 2*noteShake), noteSize, noteSize*1.8)
+  }
+
+  for(let i = 0; i < arrowXs1.length; i+=1) {
+    // hit detection
+    if (arrowYs1[i] > height-90-arrowHitMargin && arrowYs1[i] < height-90+arrowHitMargin) {
+      if (pressed1 === true) {
+        arrowXs1.splice(i,1)
+        arrowYs1.splice(i,1)
+        pressed1T = 220
+        hit()
+        break
+      }
+    }
+  }
+
+  // arrows for down arrow
+
+  for(let i = 0; i < arrowXs2.length; i+=1) {
+    imageMode(CENTER)
+    image(downArrow, arrowXs2[i]+random(-2*noteShake, 2*noteShake), arrowYs2[i]+random(-2*noteShake, 2*noteShake),  noteSize*1.8, noteSize)
+  }
+
+  for(let i = 0; i < arrowXs2.length; i+=1) {
     // hit detection
     if (arrowYs2[i] > height-90-arrowHitMargin && arrowYs2[i] < height-90+arrowHitMargin) {
       if (pressed2 === true) {
@@ -669,6 +713,7 @@ function drawArrows(arrowSpeed, arrowHitMargin) {
         arrowYs2.splice(i,1)
         pressed2T = 220
         hit()
+        break
       }
     }
   }
@@ -679,14 +724,8 @@ function drawArrows(arrowSpeed, arrowHitMargin) {
 
     imageMode(CENTER)
     image(upArrow, arrowXs3[i]+random(-2*noteShake, 2*noteShake), arrowYs3[i]+random(-2*noteShake, 2*noteShake),  noteSize*1.8,  noteSize)
-    arrowYs3[i] += arrowSpeed // arrow speed
-
-    // deletes arrow if offscreen
-    if (arrowYs3[i] > height+40) {
-      arrowXs3.splice(i,1)
-      arrowYs3.splice(i,1)
-      miss()
-    }
+  }
+  for(let i = 0; i < arrowXs3.length; i+=1) {
     // hit detection
     if (arrowYs3[i] > height-90-arrowHitMargin && arrowYs3[i] < height-90+arrowHitMargin) {
       if (pressed3 === true) {
@@ -694,6 +733,7 @@ function drawArrows(arrowSpeed, arrowHitMargin) {
         arrowYs3.splice(i,1)
         pressed3T = 220
         hit()
+        break
       }
     }
   }
@@ -704,14 +744,9 @@ function drawArrows(arrowSpeed, arrowHitMargin) {
 
     imageMode(CENTER)
     image(rightArrow, arrowXs4[i]+random(-2*noteShake, 2*noteShake), arrowYs4[i]+random(-2*noteShake, 2*noteShake), noteSize,  noteSize*1.8)
-    arrowYs4[i] += arrowSpeed // arrow speed
+  }
 
-    // deletes arrow if offscreen
-    if (arrowYs4[i] > height+40) {
-      arrowXs4.splice(i,1)
-      arrowYs4.splice(i,1)
-      miss()
-    }
+  for(let i = 0; i < arrowXs4.length; i+=1) {
     // hit detection
     if (arrowYs4[i] > height-90-arrowHitMargin && arrowYs4[i] < height-90+arrowHitMargin) {
       if (pressed4 === true) {
@@ -719,6 +754,7 @@ function drawArrows(arrowSpeed, arrowHitMargin) {
         arrowYs4.splice(i,1)
         pressed4T = 220
         hit()
+        break
       }
     }
   }
