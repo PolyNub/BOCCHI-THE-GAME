@@ -226,7 +226,7 @@ function draw() {
     doArrowInput(inputBuffer)
     drawArrowHit(noteSize, startPoint, noteSpacing)
     drawHitVFX()
-    drawArrows(0.6)
+    drawArrows(0.6, 75)
 
     drawSongUI()
 
@@ -885,7 +885,8 @@ function startChart() {
       ThatBandInput.position(width-20, height-300);
     } else {
       setTimeout(playMusic, 1800)
-      noteOffset = -300
+      songStartTime = Date.now();
+      noteOffset = 600
       chart()
     }
   }
@@ -895,7 +896,8 @@ function startChart() {
       SeishunComplexInput.position(width-20, height-300);
     } else {
       setTimeout(playMusic, 1690)
-      noteOffset = -400
+      songStartTime = Date.now();
+      noteOffset = 450
       chart2()
     }
   }
@@ -905,7 +907,8 @@ function startChart() {
       BluePlanetInput.position(width-20, height-300);
     } else {
       setTimeout(playMusic, 1690)
-      noteOffset = 1700
+      songStartTime = Date.now();
+      noteOffset = 2700
       chart3()
     }
   }
@@ -915,7 +918,8 @@ function startChart() {
       NokiaInput.position(width-20, height-300);
     } else {
       setTimeout(playMusic, 2400)
-      noteOffset = -1950
+      songStartTime = Date.now();
+      noteOffset = -1200
       nokia()
     }
   }
@@ -925,7 +929,8 @@ function startChart() {
       NewMagicWandInput.position(width-20, height-300);
     } else {
       setTimeout(playMusic, 1500)
-      noteOffset = -600
+      songStartTime = Date.now();
+      noteOffset = 300
       newMagicWand()
     }
   }
@@ -935,7 +940,8 @@ function startChart() {
       KarakaraInput.position(width-20, height-300);
     } else {
       setTimeout(playMusic, 1000)
-      noteOffset = -5000
+      songStartTime = Date.now();
+      noteOffset = -1300
       karakara()
     }
   }
