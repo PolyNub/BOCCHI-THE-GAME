@@ -103,6 +103,8 @@ let win = 0 // 0 is undefined 1 is win 2 is lose
 
 let songStartTime = 0; 
 
+let wave = 0
+
 function preload() {
   MenuTheme = loadSound('audio/menu.mp3')
   Carefree = loadSound('audio/CareFree.mp3')
@@ -224,7 +226,7 @@ function draw() {
     doArrowInput(inputBuffer)
     drawArrowHit(noteSize, startPoint, noteSpacing)
     drawHitVFX()
-    drawArrows(12, 75)
+    drawArrows(0.6)
 
     drawSongUI()
 
@@ -611,10 +613,8 @@ function miss() {
   missSfx.play()
 }
 
-function drawArrows(arrowSpeed, arrowHitMargin) {
+function drawArrows(noteSpeed) {
   timeSinceStart = Date.now() - songStartTime
-
-  noteSpeed = 0.6;
 
   fill(255)
 
@@ -652,7 +652,7 @@ function drawArrows(arrowSpeed, arrowHitMargin) {
 
     for (let i = 0; i < notes[noteType].length; i++) {
       if (notes[noteType][i] - timeSinceStart > 5000) break;
-      image(arrowImage, (startPoint+noteSpacing*noteType)+random(-2*noteShake, 2*noteShake)+50 * sin((timeSinceStart - notes[noteType][i]) * 0.01), (timeSinceStart - notes[noteType][i]) * noteSpeed + random(-2*noteShake, 2*noteShake) + height - 90, noteWidth, noteHeight)
+      image(arrowImage, (startPoint+noteSpacing*noteType)+random(-2*noteShake, 2*noteShake)+wave * sin((timeSinceStart - notes[noteType][i]) * 0.01), (timeSinceStart - notes[noteType][i]) * noteSpeed + random(-2*noteShake, 2*noteShake) + height - 90, noteWidth, noteHeight)
 
       print((timeSinceStart - notes[noteType][i]) * noteSpeed + random(-2*noteShake, 2*noteShake))
     }
@@ -845,6 +845,10 @@ function keyPressed() { // hit
     if (key === 'p' && playChart === 0) {
         missSfx.play()
         song = 99
+    }
+
+    if (key === 'l') {
+      wave = 50;
     }
   }
 }
