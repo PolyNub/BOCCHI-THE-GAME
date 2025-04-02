@@ -115,6 +115,13 @@ function preload() {
   moveHit = loadSound('audio/menuhit.mp3')
   mutedStrum = loadSound('audio/mutedStrum.mp3')
 
+  // ThatBand = loadSound('audio/ThatBand.mp3')
+  // SeishunComplex = loadSound('audio/SeishunComplex.mp3')
+  // BluePlanet = loadSound('audio/BluePlanet.mp3')
+  // Nokia = loadSound('audio/Nokia.mp3')
+  // NewMagicWand = loadSound('audio/NewMagicWand.mp3')
+  // Karakara = loadSound('audio/Karakara.mp3')
+
   computer = loadImage('images/desktop-computer-emoji-2048x2048-kw37tagw.png')
   phone = loadImage('images/133-1331851_cell-phone-emoji-png-transparent-png-Photoroom.png')
 
@@ -259,7 +266,7 @@ function draw() {
     strokeWeight(8)
     textAlign(CENTER)
     text('press enter to play!!', width/2-175, height / 2 + titleFloat+250)
-    text('V1.1', width/2-365, height / 2 + titleFloat+120)
+    text('V1.1b', width/2-365, height / 2 + titleFloat+120)
     textSize(25)
     text('by @polypoli_ on yt', width/2-190, height / 2 + titleFloat+285)
   }
@@ -751,6 +758,11 @@ function keyPressed() { // hit
       titleScreen = false
       moveHit.play()
       MenuTheme.play()
+      keybind1.remove()
+      keybind2.remove()
+      keybind3.remove()
+      keybind4.remove()
+      updateKeybinds.remove()
     } else {
       moveHit.play()
       MenuTheme.stop()
@@ -838,17 +850,29 @@ function keyPressed() { // hit
     }
     if (key === 'q' && playChart === 0) {
       moveSelect.play()
+      if (song === 99) {
+        song = 7
+      }
       if (song > 1) {
         song -= 1
       }
     }
-    if (key === 'p' && playChart === 0) {
+    if (key === '/' && playChart === 0) {
+      if (song === 99) {
+        missSfx.play()
+        song = 1
+      } else {
         missSfx.play()
         song = 99
+      }
     }
 
-    if (key === 'l') {
-      wave = 50;
+    if (key === '.') {
+      if (wave === 0) {
+        wave = 50;
+      } else {
+        wave = 0;
+      }
     }
   }
 }
@@ -939,7 +963,7 @@ function startChart() {
       KarakaraInput = createFileInput(handleFile);
       KarakaraInput.position(width-20, height-300);
     } else {
-      setTimeout(playMusic, 1000)
+      setTimeout(playMusic, 2000)
       songStartTime = Date.now();
       noteOffset = -1300
       karakara()
