@@ -105,6 +105,8 @@ let songStartTime = 0;
 
 let wave = 0
 
+let files_url = "https://pub-79660a3905bd4e6b8c2184850b5dd386.r2.dev"
+
 function preload() {
   MenuTheme = loadSound('audio/menu.mp3')
   Carefree = loadSound('audio/CareFree.mp3')
@@ -115,13 +117,13 @@ function preload() {
   moveHit = loadSound('audio/menuhit.mp3')
   mutedStrum = loadSound('audio/mutedStrum.mp3')
 
-  // ThatBand = loadSound('audio/ThatBand.mp3')
-  // SeishunComplex = loadSound('audio/SeishunComplex.mp3')
-  // BluePlanet = loadSound('audio/BluePlanet.mp3')
-  // Nokia = loadSound('audio/Nokia.mp3')
-  // NewMagicWand = loadSound('audio/NewMagicWand.mp3')
-  // Karakara = loadSound('audio/Karakara.mp3')
-
+  ThatBand = loadSound(`${files_url}/ThatBand.mp3`)
+  SeishunComplex = loadSound(`${files_url}/SeishunComplex.mp3`)
+  BluePlanet = loadSound(`${files_url}/BluePlanet.mp3`)
+  Nokia = loadSound(`${files_url}/Nokia.mp3`)
+  NewMagicWand = loadSound(`${files_url}/NewMagicWand.mp3`)
+  Karakara = loadSound(`${files_url}/Karakara.mp3`)
+  
   computer = loadImage('images/desktop-computer-emoji-2048x2048-kw37tagw.png')
   phone = loadImage('images/133-1331851_cell-phone-emoji-png-transparent-png-Photoroom.png')
 
@@ -892,165 +894,49 @@ function playMusic() {
 function startChart() {
   playChart = 1
   if (song === 1) {
-    if (HasThatBandInput === false) {
-      ThatBandInput = createFileInput(handleFile);
-      ThatBandInput.position(width-20, height-300);
-    } else {
-      setTimeout(playMusic, 1800)
-      songStartTime = Date.now();
-      noteOffset = 600
-      chart()
-    }
+    setTimeout(playMusic, 1800)
+    songStartTime = Date.now();
+    noteOffset = 600
+    chart()
   }
   if (song === 2) {
-    if (HasSeishunComplexInput === false) {
-      SeishunComplexInput = createFileInput(handleFile);
-      SeishunComplexInput.position(width-20, height-300);
-    } else {
-      setTimeout(playMusic, 1690)
-      songStartTime = Date.now();
-      noteOffset = 450
-      chart2()
-    }
+    setTimeout(playMusic, 1690)
+    songStartTime = Date.now();
+    noteOffset = 450
+    chart2()
+
   }
   if (song === 3) {
-    if (HasBluePlanetInput === false) {
-      BluePlanetInput = createFileInput(handleFile);
-      BluePlanetInput.position(width-20, height-300);
-    } else {
-      setTimeout(playMusic, 1690)
-      songStartTime = Date.now();
-      noteOffset = 2700
-      chart3()
-    }
+    setTimeout(playMusic, 1690)
+    songStartTime = Date.now();
+    noteOffset = 2700
+    chart3()
   }
   if (song === 4) {
-    if (HasNokiaInput === false) {
-      NokiaInput = createFileInput(handleFile);
-      NokiaInput.position(width-20, height-300);
-    } else {
-      setTimeout(playMusic, 2400)
-      songStartTime = Date.now();
-      noteOffset = -1200
-      nokia()
-    }
+    setTimeout(playMusic, 2400)
+    songStartTime = Date.now();
+    noteOffset = -1200
+    nokia()
+    
   }
   if (song === 5) {
-    if (HasNewMagicWandInput === false) {
-      NewMagicWandInput = createFileInput(handleFile);
-      NewMagicWandInput.position(width-20, height-300);
-    } else {
-      setTimeout(playMusic, 1500)
-      songStartTime = Date.now();
-      noteOffset = 300
-      newMagicWand()
+    setTimeout(playMusic, 1500)
+    songStartTime = Date.now();
+    noteOffset = 300
+    newMagicWand()
     }
-  }
+  
   if (song === 6) {
-    if (HasKarakaraInput === false) {
-      KarakaraInput = createFileInput(handleFile);
-      KarakaraInput.position(width-20, height-300);
-    } else {
-      setTimeout(playMusic, 2000)
-      songStartTime = Date.now();
-      noteOffset = -1300
-      karakara()
+    setTimeout(playMusic, 2000)
+    songStartTime = Date.now();
+    noteOffset = -1300
+    karakara()
     }
-  }
   if (song === 7) {
     setTimeout(playMusic, 1500)
     songStartTime = Date.now();
     noteOffset = 500
     carefree()
-  }
-}
-
-function handleFile(file) {
-  print(file);
-
-  if (song === 1) {
-    if (file.type === "audio" && file.name === "ThatBand.mp3") {
-      HasThatBandInput = true
-      ThatBand = createAudio(file.data);
-      ThatBandInput.remove()
-      setTimeout(playMusic, 1800)
-      noteOffset = 600
-      songStartTime = Date.now();
-      chart()
-    } else {
-      missSfx.play()
-    }
-  }
-
-  if (song === 2) {
-    if (file.type === "audio" && file.name === "SeishunComplex.mp3") {
-      HasSeishunComplexInput = true
-      SeishunComplex = createAudio(file.data);
-      SeishunComplexInput.remove()
-      setTimeout(playMusic, 1690)
-      noteOffset = 450
-      songStartTime = Date.now();
-      chart2()
-    } else {
-      missSfx.play()
-    }
-  }
-    
-  if (song === 3) {
-    if (file.type === "audio" && file.name === "BluePlanet.mp3") {
-      HasBluePlanetInput = true
-      BluePlanet = createAudio(file.data);
-      BluePlanetInput.remove()
-      setTimeout(playMusic, 1690)
-      noteOffset = 2700
-      songStartTime = Date.now();
-      chart3()
-    } else {
-      missSfx.play()
-    }
-  }
-  
-  if (song === 4) {
-    if (file.type === "audio" && file.name === "Nokia.mp3") {
-      HasNokiaInput = true
-      Nokia = createAudio(file.data);
-      NokiaInput.remove()
-      setTimeout(playMusic, 2400)
-      noteOffset = -1200
-      songStartTime = Date.now();
-      nokia()
-      print(notes);
-    } else {
-      missSfx.play()
-    }
-  }
-
-  if (song === 5) {
-    if (file.type === "audio" && file.name === "NewMagicWand.mp3") {
-      HasNewMagicWandInput = true
-      NewMagicWand = createAudio(file.data);
-      NewMagicWandInput.remove()
-      setTimeout(playMusic, 1500)
-      noteOffset = 300
-      songStartTime = Date.now();
-      newMagicWand()
-    } else {
-      missSfx.play()
-    }
-  }
-
-  if (song === 6) {
-    if (file.type === "audio" && file.name === "Karakara.mp3") {
-      HasKarakaraInput = true
-      Karakara = createAudio(file.data);
-      KarakaraInput.remove()
-      setTimeout(playMusic, 2000)
-      noteOffset = -1300
-      songStartTime = Date.now();
-      karakara()
-    } else {
-      missSfx.play()
-    }
   }
 }
 
