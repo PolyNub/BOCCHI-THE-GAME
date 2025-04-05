@@ -51,7 +51,7 @@ let notes = [
 ]
 
 // NOTE SYSTEM VARIABLES; change note size, where the noteHits start, and the spacing between notes
-let noteSize = 90
+let noteSize = 90 
 let startPoint = 860
 let noteSpacing = 80
 let inputBuffer = 0.3
@@ -355,14 +355,14 @@ function drawSongUI() {
       textSize(20)
       text('Get 79000 to pass!', width/2, height/4-45)
     }
-    if (song === 99) {
+    if (song === 7) {
       image(bocchiIdle, startPoint+noteSpacing*1.5, height/2, 300, 300)
 
       textSize(50)
       text('Carefree', width/2, height/3-140)
       strokeWeight(6)
       textSize(20)
-      text('The game breaks after you play this chart btw', width/2, height/4-45)
+      text('Get 41750 to pass!', width/2, height/4-45)
     }
   } else { // This is where the score is located
     textSize(60)
@@ -844,26 +844,14 @@ function keyPressed() { // hit
 
     if (key === 'e' && playChart === 0) {
       moveSelect.play()
-      if (song < 6) {
+      if (song < 7) {
         song += 1
       }
     }
     if (key === 'q' && playChart === 0) {
       moveSelect.play()
-      if (song === 99) {
-        song = 7
-      }
       if (song > 1) {
         song -= 1
-      }
-    }
-    if (key === '/' && playChart === 0) {
-      if (song === 99) {
-        missSfx.play()
-        song = 1
-      } else {
-        missSfx.play()
-        song = 99
       }
     }
 
@@ -896,8 +884,8 @@ function playMusic() {
   if (song === 6) {
     Karakara.play()
   }
-  if (song === 99) {
-    Carefree.play()
+  if (song === 7) {
+    Carefree.play();
   }
 }
 
@@ -969,7 +957,7 @@ function startChart() {
       karakara()
     }
   }
-  if (song === 99) {
+  if (song === 7) {
     setTimeout(playMusic, 1500)
     songStartTime = Date.now();
     noteOffset = 500
@@ -1115,6 +1103,14 @@ function winCheck() {
     } else {
       win = 2
       loseSfx.play()
+    }
+  } else if (song === 7) {
+    if (score >= 41750) {
+      win = 1;
+      winSfx.play();
+    } else {
+      win = 2;
+      loseSfx.play();
     }
   }
 }
@@ -4594,6 +4590,8 @@ function newMagicWand() {
 }
 
 function carefree() {
+  setTimeout(winCheck, 205000 + noteOffset);
+
   addNote(1, 1290+noteOffset)
 addNote(2, 1530+noteOffset)
 addNote(0, 1820+noteOffset)
